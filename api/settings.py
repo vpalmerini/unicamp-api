@@ -21,6 +21,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Django Apps
+    'subjects',
 ]
 
 MIDDLEWARE = [
@@ -61,6 +64,9 @@ if os.environ.get("POSTGRES_DB"):
             "USER": os.environ.get("POSTGRES_USER"),
             "PASSWORD": os.environ.get("POSTGRES_PASSWORD"),
             "HOST": os.environ.get("POSTGRES_SERVER"),
+            "TEST": {
+                "NAME": "test_db",
+            },
         }
     }
 else:
@@ -68,6 +74,9 @@ else:
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
             "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+            "TEST": {
+                "NAME": "test_db",
+            },
         }
     }
 
