@@ -26,14 +26,18 @@ class Subject(models.Model):
 
 class Class(models.Model):
     # self properties
-    class_id = models.CharField(max_length=5)
+    class_id = models.CharField(max_length=10)
     positions = models.IntegerField()
     enrolled = models.IntegerField()
     # relationships
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
 
+    class Meta:
+        verbose_name_plural = 'Classes'
+        ordering = ['subject']
+
     def __str__(self):
-        return self.class_id
+        return self.class_id + ' - ' + self.subject.initials
 
 
 class Course(models.Model):
@@ -42,6 +46,9 @@ class Course(models.Model):
     name = models.CharField(max_length=100)
     # relationships
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ['id']
 
     def __str__(self):
         return str(self.id) + ' - ' + self.name
@@ -74,11 +81,14 @@ class Professor(models.Model):
 
 class PreReq(models.Model):
     # self properties
-    initials = models.CharField(max_length=10)
+    initials = models.CharField(max_length=50)
     year_start = models.CharField(max_length=4)
     year_end = models.CharField(max_length=4)
     # relationships
     subjects = models.ManyToManyField(Subject)
+
+    class Meta:
+        verbose_name_plural = 'PreReqs'
 
     def __str__(self):
         return self.initials
@@ -86,7 +96,7 @@ class PreReq(models.Model):
 
 class Continence(models.Model):
     # self properties
-    initials = models.CharField(max_length=10)
+    initials = models.CharField(max_length=50)
     # relationships
     subjects = models.ManyToManyField(Subject)
 
@@ -96,7 +106,7 @@ class Continence(models.Model):
 
 class Equivalence(models.Model):
     # self properties
-    initials = models.CharField(max_length=10)
+    initials = models.CharField(max_length=50)
     # relationships
     subjects = models.ManyToManyField(Subject)
 

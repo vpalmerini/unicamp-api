@@ -1,21 +1,28 @@
 version: '3'
 
 services:
-  db:
-    container_name: db
+  postgres:
     image: postgres
+    container_name: postgres
     env_file:
       - postgres.env
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+
   web:
     container_name: django
     build: .
     env_file:
       - django.env
+      - postgres.env
     command:
       - /bin/sh
       - -c
       - |
-        ./manage.py makemigrations
+        # echo "DROP DATABASE [IF EXISTS] unicamp | psql"
+        ./manage.py makemigrations subjects
         ./manage.py migrate
         ./manage.py test subjects/tests/
         ./manage.py runserver 0.0.0.0:8001
@@ -24,4 +31,7 @@ services:
     ports:
       - "8001:8001"
     depends_on:
-      - db
+      - postgres
+
+volumes:
+  pgdata:
