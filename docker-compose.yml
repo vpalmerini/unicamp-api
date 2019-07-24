@@ -3,6 +3,7 @@ version: '3'
 services:
   postgres:
     image: postgres
+    restart: always
     container_name: postgres
     env_file:
       - postgres.env
@@ -14,18 +15,11 @@ services:
   web:
     container_name: django
     build: .
+    restart: always
     env_file:
       - django.env
       - postgres.env
-    command:
-      - /bin/sh
-      - -c
-      - |
-        # echo "DROP DATABASE [IF EXISTS] unicamp | psql"
-        ./manage.py makemigrations subjects
-        ./manage.py migrate
-        ./manage.py test subjects/tests/
-        ./manage.py runserver 0.0.0.0:8001
+    command: python3 manage.py runserver 0.0.0.0:8001
     volumes:
       - .:/code
     ports:
