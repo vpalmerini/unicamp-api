@@ -19,7 +19,7 @@ services:
     env_file:
       - django.env
       - postgres.env
-    command: python3 manage.py runserver 0.0.0.0:8001
+    command: python3 manage.py runserver_plus 0.0.0.0:8001
     volumes:
       - .:/code
     ports:
