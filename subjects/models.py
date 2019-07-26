@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Institute(models.Model):
     initials = models.CharField(max_length=10, primary_key=True)
     name = models.CharField(max_length=100)
@@ -44,6 +45,10 @@ class Course(models.Model):
     # self properties
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=100)
+
+    SHIFT_CHOICES = [("Integral", "Integral"), ("Noturno", "Noturno")]
+
+    shift = models.CharField(max_length=20, choices=SHIFT_CHOICES)
     # relationships
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE)
 
@@ -112,3 +117,14 @@ class Equivalence(models.Model):
 
     def __str__(self):
         return self.initials
+
+
+class Specialization(models.Model):
+    # self properties
+    code = models.CharField(max_length=10)
+    specialization = models.CharField(max_length=100)
+    # relationships
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.code + ' - ' + self.specialization
