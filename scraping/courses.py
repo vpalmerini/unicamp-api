@@ -22,7 +22,7 @@ def get_courses():
         while i < len(courses):
             rows = courses[i].find_elements_by_tag_name('td')
             obj = {}
-            obj["institute"] = institute.text.split("-")[-1]
+            obj["institute"] = institute.text.split("-")[-1].strip()
             obj["id"] = rows[0].text
             obj["name"] = rows[1].text
             obj["shift"] = rows[2].text
@@ -61,8 +61,49 @@ def data_to_json(data):
         json.dump(data, file, ensure_ascii=False)
 
 
+def merge_specializations(data, duplicated_courses, id):
+    specializations = []
+    for course in data["courses"]:
+        if course["id"] == id:
+            # specializations.append(course["specializations"])
+            for specialization in course["specializations"]:
+                specializations.append(specialization)
+    return specializations
+
+
+def handle_duplicated_courses(data):
+    courses = data["courses"]
+    ids = []
+    for course in courses:
+        ids.append(course["id"])
+
+    i = 0
+    while i < len(ids):
+        duplicated_courses = []
+        if ids.count(ids[i]) > 1:
+            j = 0
+            while j < len(courses):
+                if courses[j]["id"] == ids[i]:
+                    duplicated_courses.append(courses[j])
+                j += 1
+            j = 0
+            while j < len(courses):
+                if courses[j]["id"] == duplicated_courses[0]["id"]:
+                    courses[j]["specializations"] = merge_specializations(
+                        data, duplicated_courses, courses[j]["id"])
+                    k = j + 1
+                    while k < len(courses):
+                        if courses[k]["id"] == courses[j]["id"]:
+                            del courses[k]
+                        k += 1
+                j += 1
+            ids = [value for value in ids if value != ids[i]]
+        i += 1
+
+
 def main():
     get_courses()
+    handle_duplicated_courses(data)
     data_to_json(data)
 
 

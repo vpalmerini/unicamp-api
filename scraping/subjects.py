@@ -13,7 +13,6 @@ data["institutes"] = []
 
 def get_institutes(url):
     """Get institutes objects and add them to data"""
-    print("get institutes")
     driver.get(url)
     institutes = driver.find_elements_by_class_name('item')
 
@@ -27,7 +26,6 @@ def get_institutes(url):
         obj["link"] = link
         obj["subjects"] = []
         data["institutes"].append(obj)
-    print("done")
 
 
 def get_subjects(institutes):
@@ -148,6 +146,7 @@ def data_to_json(data):
 def main():
     get_institutes(main_url)
     get_subjects(data["institutes"])
+    get_classes(data["institutes"])
     data_to_json(data)
 
 main()
