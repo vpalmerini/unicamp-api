@@ -25,20 +25,20 @@ class Subject(models.Model):
         return self.initials
 
 
-class Class(models.Model):
+class PreReq(models.Model):
     # self properties
-    class_id = models.CharField(max_length=10)
-    positions = models.IntegerField()
-    enrolled = models.IntegerField()
+    initials = models.CharField(max_length=200)
+    year_start = models.CharField(max_length=4)
+    year_end = models.CharField(max_length=4)
+
     # relationships
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    subjects = models.ManyToManyField(Subject, related_name='prereqs')
 
     class Meta:
-        verbose_name_plural = 'Classes'
-        ordering = ['subject']
+        verbose_name_plural = 'PreReqs'
 
     def __str__(self):
-        return self.class_id + ' - ' + self.subject.initials
+        return self.initials
 
 
 class Course(models.Model):
@@ -47,7 +47,6 @@ class Course(models.Model):
     name = models.CharField(max_length=100)
 
     SHIFT_CHOICES = [("Integral", "Integral"), ("Noturno", "Noturno")]
-
     shift = models.CharField(max_length=20, choices=SHIFT_CHOICES)
     # relationships
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE)
@@ -57,6 +56,57 @@ class Course(models.Model):
 
     def __str__(self):
         return str(self.id) + ' - ' + self.name
+
+
+class Continence(models.Model):
+    # self properties
+    initials = models.CharField(max_length=100)
+
+    # relationships
+    subjects = models.ManyToManyField(Subject, related_name='continences')
+
+    def __str__(self):
+        return self.initials
+
+
+class Equivalence(models.Model):
+    # self properties
+    initials = models.CharField(max_length=200, primary_key=True)
+
+    # relationships
+    subjects = models.ManyToManyField(Subject, related_name='equivalences')
+
+    def __str__(self):
+        return self.initials
+
+
+class Class(models.Model):
+    # self properties
+    class_id = models.CharField(max_length=10)
+    positions = models.IntegerField()
+    enrolled = models.IntegerField()
+    # relationships
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    course_reservation = models.ManyToManyField(Course, related_name='courses')
+
+    class Meta:
+        verbose_name_plural = 'Classes'
+        ordering = ['subject']
+
+    def __str__(self):
+        return self.class_id + ' - ' + self.subject.initials
+
+
+class Professor(models.Model):
+    # self properties
+    name = models.CharField(max_length=100, primary_key=True)
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE)
+    web_page = models.URLField(blank=True)
+    # relationships
+    classes = models.ManyToManyField(Class)
+
+    def __str__(self):
+        return self.name
 
 
 class Schedule(models.Model):
@@ -70,53 +120,6 @@ class Schedule(models.Model):
 
     def __str__(self):
         return self.day + ': ' + self.time_start + ' - ' + self.time_end
-
-
-class Professor(models.Model):
-    # self properties
-    name = models.CharField(max_length=100)
-    institute = models.ForeignKey(Institute, on_delete=models.CASCADE)
-    web_page = models.URLField(blank=True)
-    # relationships
-    classes = models.ManyToManyField(Class)
-
-    def __str__(self):
-        return self.name
-
-
-class PreReq(models.Model):
-    # self properties
-    initials = models.CharField(max_length=50)
-    year_start = models.CharField(max_length=4)
-    year_end = models.CharField(max_length=4)
-    # relationships
-    subjects = models.ManyToManyField(Subject)
-
-    class Meta:
-        verbose_name_plural = 'PreReqs'
-
-    def __str__(self):
-        return self.initials
-
-
-class Continence(models.Model):
-    # self properties
-    initials = models.CharField(max_length=50)
-    # relationships
-    subjects = models.ManyToManyField(Subject)
-
-    def __str__(self):
-        return self.initials
-
-
-class Equivalence(models.Model):
-    # self properties
-    initials = models.CharField(max_length=50)
-    # relationships
-    subjects = models.ManyToManyField(Subject)
-
-    def __str__(self):
-        return self.initials
 
 
 class Specialization(models.Model):
