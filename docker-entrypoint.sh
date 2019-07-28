@@ -31,7 +31,7 @@ python manage.py migrate
 
 create_superuser
 
-# python "script pra pegar os dados do json e instanciar objetos no db"
+python scraping.py
 
 echo "Executing CMD"
 exec "$@"
