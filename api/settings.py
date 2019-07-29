@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'professors',
 
     # Third-Party Apps
+    'rest_framework',
     'django_extensions',
     'django_werkzeug',
 ]
