@@ -24,14 +24,22 @@ create_superuser() {
 echo "Making migrations"
 # Make database migrations
 python manage.py makemigrations
+python manage.py makemigrations institutes courses subjects classes professors
 
 echo "Running migrations"
 # Apply database migrations
 python manage.py migrate
 
+# run the function above
 create_superuser
 
-python scraping.py
+# run scripts to populate the db
+python manage.py runscript create_institutes
+python manage.py runscript create_courses
+python manage.py runscript create_subjects
+python manage.py runscript create_classes
+python manage.py runscript create_professors
+
 
 echo "Executing CMD"
 exec "$@"

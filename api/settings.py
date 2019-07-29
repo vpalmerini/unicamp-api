@@ -22,8 +22,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Django Apps
-    'scraping',
+    'institutes',
+    'courses',
     'subjects',
+    'classes',
+    'professors',
 
     # Third-Party Apps
     'django_extensions',

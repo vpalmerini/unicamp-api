@@ -1,19 +1,18 @@
 import json
 from selenium import webdriver
 
-main_url = "https://www.dac.unicamp.br/portal/graduacao/cursos"
+url = "https://www.dac.unicamp.br/portal/graduacao/cursos"
 driver_path = '/usr/local/lib/chromedriver'
 
 driver = webdriver.Chrome(driver_path)
-driver.get(main_url)
 
 data = {}
 data["courses"] = []
 
-container = driver.find_element_by_id("conteudo")
 
-
-def get_courses():
+def get_courses(url):
+    driver.get(url)
+    container = driver.find_element_by_id("conteudo")
     divs = container.find_elements_by_class_name("table-responsive")
     institutes = container.find_elements_by_tag_name('p')[2:]
     for table, institute in zip(divs, institutes):
@@ -55,17 +54,10 @@ def get_courses():
             data["courses"].append(obj)
 
 
-def data_to_json(data):
-    """Store all data in a .json file"""
-    with open("courses.json", "w") as file:
-        json.dump(data, file, ensure_ascii=False)
-
-
 def merge_specializations(data, duplicated_courses, id):
     specializations = []
     for course in data["courses"]:
         if course["id"] == id:
-            # specializations.append(course["specializations"])
             for specialization in course["specializations"]:
                 specializations.append(specialization)
     return specializations
@@ -101,8 +93,14 @@ def handle_duplicated_courses(data):
         i += 1
 
 
+def data_to_json(data):
+    """Store all data in a .json file"""
+    with open("courses/courses.json", "w") as file:
+        json.dump(data, file, ensure_ascii=False)
+
+
 def main():
-    get_courses()
+    get_courses(url)
     handle_duplicated_courses(data)
     data_to_json(data)
 
