@@ -1,5 +1,5 @@
-import json
 from selenium import webdriver
+from api.utils import data_to_json
 
 url = 'https://www.dac.unicamp.br/portal/caderno-de-horarios/2019/1/S/G'
 driver_path = '/usr/local/lib/chromedriver'
@@ -24,12 +24,6 @@ def get_institutes(url):
         obj["link"] = institute.find_element_by_tag_name('a').get_attribute(
             'href')
         data["institutes"].append(obj)
-
-
-def data_to_json(data):
-    """Store all data in a .json file"""
-    with open("institutes/institutes.json", "w") as file:
-        json.dump(data, file, ensure_ascii=False)
 
 
 def main():

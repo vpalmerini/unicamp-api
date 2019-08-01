@@ -1,7 +1,7 @@
 from classes.models import Class, Schedule
 from courses.models import Course
 from subjects.models import Subject
-import json
+from api.utils import json_to_data, string_to_int
 
 
 def store_classes(path):
@@ -27,19 +27,6 @@ def store_classes(path):
                 class_instance.courses.add(course_instance)
             except:
                 pass
-
-
-def string_to_int(value):
-    if value == "":
-        return 0
-    else:
-        return int(value)
-
-
-def json_to_data(path):
-    """Open .json file with scraped data"""
-    with open(path, "r") as file:
-        return json.load(file)
 
 
 def run():

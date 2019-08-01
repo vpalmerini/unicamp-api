@@ -1,5 +1,5 @@
-import json
 from selenium import webdriver
+from api.utils import data_to_json
 
 url = "https://www.dac.unicamp.br/portal/graduacao/cursos"
 driver_path = '/usr/local/lib/chromedriver'
@@ -91,12 +91,6 @@ def handle_duplicated_courses(data):
                 j += 1
             ids = [value for value in ids if value != ids[i]]
         i += 1
-
-
-def data_to_json(data):
-    """Store all data in a .json file"""
-    with open("courses/courses.json", "w") as file:
-        json.dump(data, file, ensure_ascii=False)
 
 
 def main():

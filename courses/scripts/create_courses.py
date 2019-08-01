@@ -1,6 +1,6 @@
 from courses.models import Course
 from institutes.models import Institute
-import json
+from api.utils import json_to_data
 
 
 def store_courses(path):
@@ -13,12 +13,6 @@ def store_courses(path):
                               name=course["name"],
                               shift=course["shift"],
                               institute=institute_instance)
-
-
-def json_to_data(path):
-    """Open .json file with scraped data"""
-    with open(path, "r") as file:
-        return json.load(file)
 
 
 def run():

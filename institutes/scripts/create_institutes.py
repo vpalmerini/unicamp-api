@@ -1,5 +1,5 @@
 from institutes.models import Institute
-import json
+from api.utils import json_to_data
 
 
 def store_institutes(path):
@@ -9,12 +9,6 @@ def store_institutes(path):
         Institute.objects.create(initials=institute["initials"],
                                  name=institute["name"],
                                  link=institute["link"])
-
-
-def json_to_data(path):
-    """Open .json file with scraped data"""
-    with open(path, "r") as file:
-        return json.load(file)
 
 
 def run():

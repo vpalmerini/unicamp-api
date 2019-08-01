@@ -1,5 +1,5 @@
-import json
 from selenium import webdriver
+from api.utils import json_to_data, data_to_json
 
 driver_path = '/usr/local/lib/chromedriver'
 driver = webdriver.Chrome(driver_path)
@@ -77,18 +77,6 @@ def get_classes(path):
             except:
                 class_obj["course_reservation"] = []
             data["classes"].append(class_obj)
-
-
-def json_to_data(path):
-    """Open .json file with scraped data"""
-    with open(path, "r") as file:
-        return json.load(file)
-
-
-def data_to_json(data):
-    """Store all data in a .json file"""
-    with open("classes/classes.json", "w") as file:
-        json.dump(data, file, ensure_ascii=False)
 
 
 def main():
