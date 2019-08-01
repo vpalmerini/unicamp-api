@@ -9,7 +9,7 @@ data["subjects"] = []
 
 
 def get_subjects(path):
-    """Get subjects from institutes and add them to data"""
+    """Gets subjects from institutes webpages and add them to subjects.json"""
     institutes_data = json_to_data(path)
     institutes = institutes_data["institutes"]
     for institute in institutes:

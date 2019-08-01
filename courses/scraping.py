@@ -11,6 +11,9 @@ data["courses"] = []
 
 
 def get_courses(url):
+    """
+    Gets courses from DAC's webpage
+    """
     driver.get(url)
     container = driver.find_element_by_id("conteudo")
     divs = container.find_elements_by_class_name("table-responsive")
@@ -55,6 +58,9 @@ def get_courses(url):
 
 
 def merge_specializations(data, duplicated_courses, id):
+    """
+    Merges specializations for the same course
+    """
     specializations = []
     for course in data["courses"]:
         if course["id"] == id:
@@ -64,6 +70,10 @@ def merge_specializations(data, duplicated_courses, id):
 
 
 def handle_duplicated_courses(data):
+    """
+    Handles duplicated courses got from
+    anti-patterns on the website design
+    """
     courses = data["courses"]
     ids = []
     for course in courses:
@@ -96,6 +106,7 @@ def handle_duplicated_courses(data):
 def main():
     get_courses(url)
     handle_duplicated_courses(data)
+    # store courses data in courses.json
     data_to_json(data)
 
 

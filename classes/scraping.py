@@ -9,7 +9,9 @@ data["classes"] = []
 
 
 def get_classes(path):
-    """Get classes from subjects and add them to data"""
+    """
+    Gets classes from subjects webpages
+    """
     subjects_data = json_to_data(path)
     subjects = subjects_data["subjects"]
     for subject in subjects:
@@ -81,6 +83,7 @@ def get_classes(path):
 
 def main():
     get_classes("subjects/subjects.json")
+    # store classes data in classes.json
     data_to_json(data)
 
 
