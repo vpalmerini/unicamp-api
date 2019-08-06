@@ -5,6 +5,7 @@ from .models import Institute
 class InstituteSerializer(serializers.ModelSerializer):
     courses = serializers.StringRelatedField(many=True, read_only=True)
     professors = serializers.StringRelatedField(many=True, read_only=True)
+    subjects = serializers.StringRelatedField(many=True, read_only=True)
 
     class Meta:
         model = Institute

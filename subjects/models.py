@@ -11,7 +11,9 @@ class Subject(models.Model):
     year = models.CharField(max_length=4)
     workload = models.IntegerField()
     # relationships
-    institute = models.ForeignKey(Institute, on_delete=models.CASCADE)
+    institute = models.ForeignKey(Institute,
+                                  related_name='subjects',
+                                  on_delete=models.CASCADE)
 
     def __str__(self):
         return self.initials
