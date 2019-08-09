@@ -27,7 +27,9 @@ class Schedule(models.Model):
     time_end = models.CharField(max_length=10)
     place = models.CharField(max_length=20)
     # relationships
-    class_id = models.ForeignKey(Class, on_delete=models.CASCADE)
+    class_id = models.ForeignKey(Class,
+                                 related_name='schedules',
+                                 on_delete=models.CASCADE)
 
     def __str__(self):
         return self.day + ': ' + self.time_start + ' - ' + self.time_end
