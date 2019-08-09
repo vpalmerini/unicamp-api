@@ -7,6 +7,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('{}/institutes/'.format(base_api_path), include('institutes.urls')),
     path('{}/courses/'.format(base_api_path), include('courses.urls')),
-    path('{}/professors/'.format(base_api_path), include('professors.urls')),
-    path('{}/subjects/'.format(base_api_path), include('subjects.urls')),
 ]
