@@ -24,7 +24,7 @@ create_superuser() {
 echo "Making migrations"
 # Make database migrations
 python manage.py makemigrations
-python manage.py makemigrations institutes courses subjects classes professors
+python manage.py makemigrations institutes courses subjects classes professors students
 
 echo "Running migrations"
 # Apply database migrations
