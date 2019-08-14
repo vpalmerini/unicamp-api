@@ -84,7 +84,7 @@ def get_classes(path):
 def main():
     get_classes("subjects/subjects.json")
     # store classes data in classes.json
-    data_to_json(data)
+    data_to_json(data, "classes/classes.json")
 
 
 main()

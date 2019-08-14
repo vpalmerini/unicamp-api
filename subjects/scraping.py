@@ -101,7 +101,7 @@ def json_to_data(path):
 def main():
     get_subjects("institutes/institutes.json")
     get_subjects_details()
-    data_to_json(data)
+    data_to_json(data, "subjects/subjects.json")
 
 
 main()

@@ -7,9 +7,9 @@ def json_to_data(path):
         return json.load(file)
 
 
-def data_to_json(data):
+def data_to_json(data, path):
     """Store all data in a .json file"""
-    with open("classes/classes.json", "w") as file:
+    with open(path, "w") as file:
         json.dump(data, file, ensure_ascii=False)
 
 

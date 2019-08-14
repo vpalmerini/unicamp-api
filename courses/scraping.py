@@ -107,7 +107,7 @@ def main():
     get_courses(url)
     handle_duplicated_courses(data)
     # store courses data in courses.json
-    data_to_json(data)
+    data_to_json(data, "courses/courses.json")
 
 
 main()

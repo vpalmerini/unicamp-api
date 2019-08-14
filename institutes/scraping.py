@@ -28,7 +28,7 @@ def get_institutes(url):
 
 def main():
     get_institutes(url)
-    data_to_json(data)
+    data_to_json(data, "institutes/institutes.json")
 
 
 main()
