@@ -11,7 +11,7 @@ class Student(models.Model):
     email = models.EmailField()
 
     # relationships
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True)
     classes = models.ManyToManyField(Class)
 
     def save(self, *args, **kwargs):

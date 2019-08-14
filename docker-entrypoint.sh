@@ -39,6 +39,7 @@ python manage.py runscript create_courses
 python manage.py runscript create_subjects
 python manage.py runscript create_classes
 python manage.py runscript create_professors
+python manage.py runscript create_students
 
 
 echo "Executing CMD"
