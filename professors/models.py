@@ -11,7 +11,7 @@ class Professor(models.Model):
     institute = models.ForeignKey(Institute,
                                   related_name='professors',
                                   on_delete=models.CASCADE)
-    classes = models.ManyToManyField(Class)
+    classes = models.ManyToManyField(Class, related_name='professors')
 
     def __str__(self):
         return self.name

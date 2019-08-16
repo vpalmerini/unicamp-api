@@ -12,7 +12,7 @@ class Student(models.Model):
 
     # relationships
     course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True)
-    classes = models.ManyToManyField(Class)
+    classes = models.ManyToManyField(Class, related_name='students')
 
     def save(self, *args, **kwargs):
         domain = "@dac.unicamp.br"
