@@ -5,6 +5,10 @@ from rest_framework_extensions.mixins import NestedViewSetMixin
 
 
 class ClassViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return serializers.ClassListSerializer
+        return serializers.ClassSerializer
+
     queryset = Class.objects.all()
-    serializer_class = serializers.ClassSerializer
     lookup_field = 'class_id'

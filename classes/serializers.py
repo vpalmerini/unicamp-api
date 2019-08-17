@@ -14,3 +14,12 @@ class ClassSerializer(serializers.ModelSerializer):
             'class_id', 'positions', 'enrolled', 'subject',
             'course_reservation', 'schedules', 'professors', 'students'
         ]
+
+
+class ClassListSerializer(ClassSerializer):
+    class Meta:
+        model = Class
+        fields = [
+            'class_id', 'positions', 'enrolled', 'subject',
+            'course_reservation', 'schedules', 'professors'
+        ]
