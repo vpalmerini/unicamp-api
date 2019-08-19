@@ -41,6 +41,8 @@ python manage.py runscript create_classes
 python manage.py runscript create_professors
 python manage.py runscript create_students
 
+# run all unit tests
+python manage.py test
 
 echo "Executing CMD"
 exec "$@"
