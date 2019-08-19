@@ -3,10 +3,11 @@ from .models import *
 
 
 class SubjectAdmin(admin.ModelAdmin):
-    list_display = ('initials', 'name', 'institute', 'workload', 'year')
-    list_filter = ('institute', 'year', 'workload')
+    list_display = ('initials', 'name', 'institute', 'workload')
+    list_filter = ('institute', 'workload')
 
 
+admin.site.register(Semester)
 admin.site.register(Subject, SubjectAdmin)
 admin.site.register(PreReq)
 admin.site.register(Continence)

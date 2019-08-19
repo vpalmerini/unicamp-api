@@ -2,6 +2,22 @@ from django.db import models
 from institutes.models import Institute
 
 
+class Semester(models.Model):
+    # self properties
+    SEMESTER_CHOICES = [(1, 1), (2, 2)]
+    semester = models.IntegerField(choices=SEMESTER_CHOICES)
+    year = models.CharField(max_length=4)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['semester', 'year'],
+                                    name="unique-semester")
+        ]
+
+    def __str__(self):
+        return str(self.semester) + ' - ' + self.year
+
+
 class Subject(models.Model):
     # self properties
     initials = models.CharField(max_length=10, primary_key=True)
@@ -16,13 +32,6 @@ class Subject(models.Model):
 
     def __str__(self):
         return self.initials
-
-
-class Semester(models.Model):
-    # self properties
-    SEMESTER_CHOICES = [(1, 1), (2, 2)]
-    semester = models.IntegerField(choices=SEMESTER_CHOICES)
-    year = models.CharField(max_length=4)
 
 
 class PreReq(models.Model):
