@@ -6,17 +6,23 @@ class Subject(models.Model):
     # self properties
     initials = models.CharField(max_length=10, primary_key=True)
     name = models.CharField(max_length=100)
-    link = models.URLField(max_length=100)
     syllabus = models.TextField()
-    year = models.CharField(max_length=4)
     workload = models.IntegerField()
     # relationships
     institute = models.ForeignKey(Institute,
                                   related_name='subjects',
                                   on_delete=models.CASCADE)
+    semesters = models.ManyToManyField(Semester, related_name='subjects')
 
     def __str__(self):
         return self.initials
+
+
+class Semester(models.Model):
+    # self properties
+    SEMESTER_CHOICES = [(1, 1), (2, 2)]
+    semester = models.IntegerField(choices=SEMESTER_CHOICES)
+    year = models.CharField(max_length=4)
 
 
 class PreReq(models.Model):
