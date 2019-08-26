@@ -11,8 +11,7 @@ def store_institutes(path):
     institutes = institutes_data["institutes"]
     for institute in institutes:
         Institute.objects.create(initials=institute["initials"],
-                                 name=institute["name"],
-                                 link=institute["link"])
+                                 name=institute["name"])
 
 
 def run():
