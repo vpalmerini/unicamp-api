@@ -12,9 +12,4 @@ router = NestedDefaultRouter()
 
 subjects_router = router.register('', SubjectViewSet)
 
-# subjects_router.register('classes',
-#                          ClassViewSet,
-#                          basename='subject-classes',
-#                          parents_query_lookups=['subject'])
-
 urlpatterns = router.urls

@@ -1,4 +1,4 @@
-from subjects.models import Subject, PreReq, Continence, Equivalence
+from subjects.models import Semester, Subject, PreReq, Continence, Equivalence
 from institutes.models import Institute
 from api.utils import json_to_data, string_to_int
 
@@ -14,14 +14,23 @@ def store_subjects(path):
     for subject in subjects:
         institute_instance = Institute.objects.get(
             initials=subject["institute"])
+        try:
+            semester_instance = Semester.objects.get(
+                year=subject["semester"]["year"],
+                semester=subject["semester"]["semester"])
+        except:
+            semester_instance = Semester(
+                year=subject["semester"]["year"],
+                semester=subject["semester"]["semester"])
+
+        semester_instance.save()
         subject_instance = Subject(initials=subject["initials"],
                                    name=subject["name"],
-                                   link=subject["link"],
                                    syllabus=subject["syllabus"],
-                                   year=subject["year"],
                                    workload=string_to_int(subject["workload"]),
                                    institute=institute_instance)
         subject_instance.save()
+        semester_instance.subjects.add(subject_instance)
 
         for pre_req_obj in subject["pre_reqs"]:
             for pre_req in pre_req_obj["pre_reqs"]:
