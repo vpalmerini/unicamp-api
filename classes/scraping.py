@@ -4,6 +4,8 @@ from api.utils import json_to_data, data_to_json
 driver_path = '/usr/local/lib/chromedriver'
 driver = webdriver.Chrome(driver_path)
 
+base_url = 'https://www.dac.unicamp.br/portal/caderno-de-horarios/'
+
 data = {}
 data["classes"] = []
 
@@ -15,7 +17,11 @@ def get_classes(path):
     subjects_data = json_to_data(path)
     subjects = subjects_data["subjects"]
     for subject in subjects:
-        driver.get(subject["link"])
+        url = base_url + subject["semester"]["year"] + '/' + subject[
+            "semester"]["semester"] + '/' + 'S' + '/' + subject[
+                "degree"] + '/' + subject["institute"] + '/' + subject[
+                    "initials"]
+        driver.get(url)
         container = driver.find_element_by_id('conteudo')
         subject_classes_elements = container.find_elements_by_xpath(
             "//div[contains(@class, 'turma')]")
