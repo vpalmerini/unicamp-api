@@ -134,6 +134,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': ('api.permissions.IsSafeOrIsStaff', ),
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
+}
+
 LANGUAGE_CODE = 'pt-br'
 
 TIME_ZONE = 'America/Sao_Paulo'
