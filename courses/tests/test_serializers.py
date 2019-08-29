@@ -6,24 +6,13 @@ from courses.serializers import CourseSerializer
 
 class CourseSerializerTest(TestCase):
     def setUp(self):
-        institute1 = Institute(initials='IC', name='Instituto de Computação')
-        institute1.save()
+        institute = Institute(initials='IC', name='Instituto de Computação')
+        institute.save()
         self.courses_attributes = {
             'id': 42,
             'name': 'Ciência da Computação',
             'shift': 'Noturno',
-            'institute': institute1
-        }
-
-        institute2 = Institute(
-            initials='FEC',
-            name='Faculdade de Engenharia Civil e Arquitetura e Urbanismo')
-        institute2.save()
-        self.serializer_data = {
-            'id': 12,
-            'name': 'Engenharia Civil',
-            'shift': 'Integral',
-            'institute': institute2
+            'institute': institute
         }
 
         self.course = Course.objects.create(**self.courses_attributes)
