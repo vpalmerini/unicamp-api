@@ -10,7 +10,7 @@ class Class(models.Model):
     enrolled = models.IntegerField()
     # relationships
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    course_reservation = models.ManyToManyField(Course, related_name='courses')
+    course_reservation = models.ManyToManyField(Course, related_name='classes')
 
     class Meta:
         verbose_name_plural = 'Classes'
