@@ -42,7 +42,7 @@ python manage.py runscript create_professors
 python manage.py runscript create_students
 
 # run all unit tests
-python manage.py test
+python manage.py test --no-input
 
 echo "Executing CMD"
 exec "$@"

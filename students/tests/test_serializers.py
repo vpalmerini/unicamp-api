@@ -4,7 +4,7 @@ from institutes.models import Institute
 from courses.models import Course
 from subjects.models import Subject, Semester, PreReq, Continence, Equivalence
 from classes.models import Class
-from students.serializers import StudentListSerializer
+from students.serializers import StudentListSerializer, StudentDetailSerializer
 
 
 class StudentSerializerBaseTest(TestCase):
@@ -37,12 +37,6 @@ class StudentSerializerBaseTest(TestCase):
         pre_req.subjects.add(subject)
         continence.subjects.add(subject)
         equivalence.subjects.add(subject)
-        _class = Class(id=1,
-                       class_id='A',
-                       positions=30,
-                       enrolled=28,
-                       subject=subject)
-        _class.save()
 
         self.student_attributes = {
             'ra': '100000',
@@ -78,3 +72,40 @@ class StudentListSerializerTest(StudentSerializerBaseTest):
     def test_course_field_content(self):
         data = self.serializer.data
         self.assertEqual(data['course'], self.student_attributes['course'].id)
+
+
+class StudentDetailSerializerTest(StudentListSerializerTest):
+    def setUp(self):
+        StudentListSerializerTest.setUp(self)
+        subject = Subject.objects.get()
+        _class = Class(id=1,
+                       class_id='A',
+                       positions=30,
+                       enrolled=28,
+                       subject=subject)
+        _class.save()
+        _class.students.add(self.student)
+        self.student_attributes['classes'] = _class
+        self.serializer = StudentDetailSerializer(instance=self.student)
+
+    def test_contains_expected_fields(self):
+        data = self.serializer.data
+        self.assertCountEqual(data.keys(),
+                              ['ra', 'name', 'email', 'course', 'classes'])
+
+    def test_ra_field_content(self):
+        StudentListSerializerTest.test_ra_field_content(self)
+
+    def test_name_field_content(self):
+        StudentListSerializerTest.test_name_field_content(self)
+
+    def test_email_field_content(self):
+        StudentListSerializerTest.test_email_field_content(self)
+
+    def test_course_field_content(self):
+        StudentListSerializerTest.test_course_field_content(self)
+
+    def test_classes_field_content(self):
+        data = self.serializer.data
+        self.assertEqual(data['classes'].pop()['class_id'],
+                         self.student_attributes['classes'].class_id)
