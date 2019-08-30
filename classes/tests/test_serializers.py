@@ -144,7 +144,24 @@ class ClassDetailSerializerTest(ClassListSerializerTest):
                          self.class_attributes['students'].ra)
 
 
-class ClassListStudentDetailSerializerTest(TestCase):
+class ClassListStudentDetailSerializerTest(ClassSerializerBaseTest):
     def setUp(self):
         ClassSerializerBaseTest.setUp(self)
         self.serializer = ClassListStudenDetailSerializer(instance=self._class)
+
+    def test_contains_expected_fields(self):
+        data = self.serializer.data
+        self.assertCountEqual(
+            data.keys(), ['class_id', 'subject', 'schedules', 'professors'])
+
+    def test_class_id_field_content(self):
+        ClassListSerializerTest.test_class_id_field_content(self)
+
+    def test_subject_field_content(self):
+        ClassListSerializerTest.test_subject_field_content(self)
+
+    def test_schedules_field_content(self):
+        ClassListSerializerTest.test_schedules_field_content(self)
+
+    def test_professors_field_content(self):
+        ClassListSerializerTest.test_professors_field_content(self)
