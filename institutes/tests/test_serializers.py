@@ -10,11 +10,6 @@ class InstituteSerializerTest(TestCase):
             'name': 'Instituto de Computação'
         }
 
-        self.serializer_data = {
-            'initials': 'FEEC',
-            'name': 'Faculdade de Engenharia Elétrica e Computação'
-        }
-
         self.institute = Institute.objects.create(**self.institute_attributes)
         self.serializer = InstituteSerializer(instance=self.institute)
 
