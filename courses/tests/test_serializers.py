@@ -2,12 +2,12 @@ from django.test import TestCase
 from courses.models import Course
 from institutes.models import Institute
 from courses.serializers import CourseSerializer
+from institutes.tests.factories import InstituteFactory
 
 
 class CourseSerializerTest(TestCase):
     def setUp(self):
-        institute = Institute(initials='IC', name='Instituto de Computação')
-        institute.save()
+        institute = InstituteFactory()
         self.courses_attributes = {
             'id': 42,
             'name': 'Ciência da Computação',
