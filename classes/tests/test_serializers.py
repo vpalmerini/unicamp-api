@@ -1,34 +1,20 @@
 from django.test import TestCase
-from classes.models import Class, Schedule
-from institutes.models import Institute
-from courses.models import Course
-from subjects.models import Subject, Semester, Continence, Equivalence, PreReq
-from professors.models import Professor
-from students.models import Student
+from classes.models import Class
 from classes.serializers import ClassListSerializer, ClassDetailSerializer, ClassListStudenDetailSerializer
+from subjects.tests.factories import SemesterFactory, PreReqFactory, ContinenceFactory, EquivalenceFactory, SubjectFactory
+from courses.tests.factories import CourseFactory
+from classes.tests.factories import ScheduleFactory
+from professors.tests.factories import ProfessorFactory
+from students.tests.factories import StudentFactory
 
 
 class ClassSerializerBaseTest(TestCase):
     def setUp(self):
-        institute = Institute(initials='IC', name='Instituto de Computação')
-        institute.save()
-        semester = Semester(semester=1, year='2019')
-        semester.save()
-        pre_req = PreReq(id=1,
-                         initials='MC102',
-                         year_start='2000',
-                         year_end='2019')
-        pre_req.save()
-        continence = Continence(initials='MC002')
-        continence.save()
-        equivalence = Equivalence(initials='MC100')
-        equivalence.save()
-        subject = Subject(initials='MC202',
-                          name='Estrutura de Dados',
-                          syllabus='Listas Ligadas e Árvores',
-                          workload=6,
-                          institute=institute)
-        subject.save()
+        semester = SemesterFactory()
+        pre_req = PreReqFactory()
+        continence = ContinenceFactory()
+        equivalence = EquivalenceFactory()
+        subject = SubjectFactory()
         semester.subjects.add(subject)
         pre_req.subjects.add(subject)
         continence.subjects.add(subject)
@@ -42,19 +28,9 @@ class ClassSerializerBaseTest(TestCase):
         }
         self._class = Class.objects.create(**self.class_attributes)
 
-        course = Course(id=42,
-                        name='Ciência da Computação',
-                        shift='Noturno',
-                        institute=institute)
-        course.save()
-        schedule = Schedule(day='Segunda',
-                            time_start='14:00',
-                            time_end='16:00',
-                            place='CB02',
-                            class_id=self._class)
-        schedule.save()
-        professor = Professor(name='Pedro Rezende', institute=institute)
-        professor.save()
+        course = CourseFactory()
+        schedule = ScheduleFactory()
+        professor = ProfessorFactory()
 
         self.class_attributes['schedules'] = schedule
         self.class_attributes['course'] = course
@@ -106,9 +82,7 @@ class ClassListSerializerTest(ClassSerializerBaseTest):
 class ClassDetailSerializerTest(ClassListSerializerTest):
     def setUp(self):
         ClassListSerializerTest.setUp(self)
-        course = Course.objects.get()
-        student = Student(ra='100000', name='Victor Palmerini', course=course)
-        student.save()
+        student = StudentFactory()
         student.classes.add(self._class)
         self.class_attributes['students'] = student
         self.serializer = ClassDetailSerializer(instance=self._class)
