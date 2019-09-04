@@ -1,6 +1,5 @@
 from django.test import TestCase
 from courses.models import Course
-from institutes.models import Institute
 from courses.serializers import CourseSerializer
 from institutes.tests.factories import InstituteFactory
 

@@ -1,6 +1,5 @@
 from django.test import TestCase
 from courses.models import Course, Specialization
-from institutes.models import Institute
 from courses.tests.factories import CourseFactory, SpecializationFactory
 
 
