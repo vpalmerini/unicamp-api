@@ -1,43 +1,25 @@
 from django.test import TestCase
 from professors.models import Professor
-from institutes.models import Institute
-from subjects.models import Subject, Semester, PreReq, Continence, Equivalence
-from classes.models import Class
 from professors.serializers import ProfessorSerializer
+from institutes.tests.factories import InstituteFactory
+from subjects.tests.factories import SemesterFactory, SubjectFactory, PreReqFactory, ContinenceFactory, EquivalenceFactory
+from classes.tests.factories import ClassFactory
 
 
 class ProfessorSerializerTest(TestCase):
     def setUp(self):
-        institute = Institute(initials='IC', name='Instituto de Computação')
-        institute.save()
-        semester = Semester(semester=1, year='2019')
-        semester.save()
-        pre_req = PreReq(id=1,
-                         initials='MC102',
-                         year_start='2000',
-                         year_end='2019')
-        pre_req.save()
-        continence = Continence(initials='MC002')
-        continence.save()
-        equivalence = Equivalence(initials='MC100')
-        equivalence.save()
-        subject = Subject(initials='MC202',
-                          name='Estrutura de Dados',
-                          syllabus='Listas Ligadas e Árvores',
-                          workload=6,
-                          institute=institute)
-        subject.save()
+        institute = InstituteFactory()
+        semester = SemesterFactory()
+        pre_req = PreReqFactory()
+        continence = ContinenceFactory()
+        equivalence = EquivalenceFactory()
+        subject = SubjectFactory()
         semester.subjects.add(subject)
         pre_req.subjects.add(subject)
         continence.subjects.add(subject)
         equivalence.subjects.add(subject)
 
-        _class = Class(id=1,
-                       class_id='A',
-                       positions=30,
-                       enrolled=28,
-                       subject=subject)
-        _class.save()
+        _class = ClassFactory()
 
         self.professor_attributes = {
             'name': 'Pedro Rezende',
