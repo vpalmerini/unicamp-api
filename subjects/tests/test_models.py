@@ -1,6 +1,5 @@
 from django.test import TestCase
 from subjects.models import Subject, Semester, PreReq, Continence, Equivalence
-from institutes.models import Institute
 from subjects.tests.factories import SemesterFactory, SubjectFactory, PreReqFactory, ContinenceFactory, EquivalenceFactory
 
 

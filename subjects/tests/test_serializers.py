@@ -1,24 +1,17 @@
 from django.test import TestCase
-from subjects.models import Subject, Semester, PreReq, Continence, Equivalence
-from institutes.models import Institute
+from subjects.models import Subject
 from subjects.serializers import SubjectSerializer
+from institutes.tests.factories import InstituteFactory
+from subjects.tests.factories import SemesterFactory, PreReqFactory, ContinenceFactory, EquivalenceFactory
 
 
 class SubjectSerializerTest(TestCase):
     def setUp(self):
-        institute = Institute(initials='IC', name='Instituto de Computação')
-        institute.save()
-        semester = Semester(semester=1, year='2019')
-        semester.save()
-        pre_req = PreReq(id=1,
-                         initials='MC102',
-                         year_start='2000',
-                         year_end='2019')
-        pre_req.save()
-        continence = Continence(initials='MC002')
-        continence.save()
-        equivalence = Equivalence(initials='MC100')
-        equivalence.save()
+        institute = InstituteFactory()
+        semester = SemesterFactory()
+        pre_req = PreReqFactory()
+        continence = ContinenceFactory()
+        equivalence = EquivalenceFactory()
 
         self.subject_attributes = {
             'initials': 'MC202',
