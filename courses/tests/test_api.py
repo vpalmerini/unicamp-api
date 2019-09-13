@@ -17,7 +17,7 @@ class CourseAPITest(APITestCase):
         """
         Anyone can make GET requests to the list of Courses
         """
-        url = reverse('courses-list')
+        url = reverse('institute-courses-list', args=['IC'])
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -25,7 +25,7 @@ class CourseAPITest(APITestCase):
         """
         Anyone can make GET requests to a specific Course
         """
-        url = reverse('courses-detail', args=[42])
+        url = reverse('institute-courses-detail', args=['IC', 42])
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -33,7 +33,7 @@ class CourseAPITest(APITestCase):
         """
         Ensure that only admins can create Courses
         """
-        url = reverse('courses-list')
+        url = reverse('institute-courses-list', args=['IC'])
         institute = Institute.objects.get()
         data = {
             'id': 12,
@@ -59,7 +59,7 @@ class CourseAPITest(APITestCase):
         """
         Ensure that only admins can edit Courses
         """
-        url = reverse('courses-detail', args=[42])
+        url = reverse('institute-courses-detail', args=['IC', 42])
         institute = Institute.objects.get()
         data = {
             'id': 12,
@@ -85,7 +85,7 @@ class CourseAPITest(APITestCase):
         """
         Ensure that only admins can delete Courses
         """
-        url = reverse('courses-detail', args=[42])
+        url = reverse('institute-courses-detail', args=['IC', 42])
         response = self.client.delete(url)
         # non admin and unauthenticated user
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
