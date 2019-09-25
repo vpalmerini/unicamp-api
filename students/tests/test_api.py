@@ -22,16 +22,14 @@ class StudentAPITest(APITestCase):
         """
         url = reverse('institute-course-students-list', args=['IC', 42])
         # unauthenticated user
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        BaseAPITest.check_user_permissions(self, None, 'get',
+                                           status.HTTP_403_FORBIDDEN, url)
         # authenticated user
-        self.client.login(username='user', password='password')
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        BaseAPITest.check_user_permissions(self, 'user', 'get',
+                                           status.HTTP_200_OK, url)
         # admin user
-        self.client.login(username='admin', password='password')
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        BaseAPITest.check_user_permissions(self, 'admin', 'get',
+                                           status.HTTP_200_OK, url)
 
     def test_get_student_detail(self):
         """
@@ -40,16 +38,14 @@ class StudentAPITest(APITestCase):
         url = reverse('institute-course-students-detail',
                       args=['IC', 42, '100000'])
         # unauthenticated user
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        BaseAPITest.check_user_permissions(self, None, 'get',
+                                           status.HTTP_403_FORBIDDEN, url)
         # authenticated user
-        self.client.login(username='user', password='password')
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        BaseAPITest.check_user_permissions(self, 'user', 'get',
+                                           status.HTTP_200_OK, url)
         # admin user
-        self.client.login(username='admin', password='password')
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        BaseAPITest.check_user_permissions(self, 'admin', 'get',
+                                           status.HTTP_200_OK, url)
 
     def test_create_student(self):
         """
@@ -65,25 +61,25 @@ class StudentAPITest(APITestCase):
             'course': course.id,
             'classes': [_class.class_id]
         }
-        response = self.client.post(url, data, format='json')
-        # non admin and unauthenticated user
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        BaseAPITest.check_user_permissions(self, None, 'post',
+                                           status.HTTP_403_FORBIDDEN, url,
+                                           data)
 
         # admin user
-        self.client.login(username='admin', password='password')
-        response = self.client.post(url, data, format='json')
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        BaseAPITest.check_user_permissions(self, 'admin', 'post',
+                                           status.HTTP_201_CREATED, url, data)
 
         # non admin user and authenticated user
-        self.client.login(username='user', password='password')
-        response = self.client.post(url, data, format='json')
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        BaseAPITest.check_user_permissions(self, 'user', 'post',
+                                           status.HTTP_403_FORBIDDEN, url,
+                                           data)
 
     def test_edit_student(self):
         """
         Only admins can edit a Student instance
         """
-        url = reverse('institute-course-students-detail', args=['IC', 42, '100000'])
+        url = reverse('institute-course-students-detail',
+                      args=['IC', 42, '100000'])
         course = Course.objects.get()
         _class = Class.objects.get()
         data = {
@@ -93,35 +89,34 @@ class StudentAPITest(APITestCase):
             'course': course.id,
             'classes': [_class.class_id]
         }
-        response = self.client.put(url, data, format='json')
         # non admin and unauthenticated user
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        BaseAPITest.check_user_permissions(self, None, 'put',
+                                           status.HTTP_403_FORBIDDEN, url,
+                                           data)
 
         # admin user
-        self.client.login(username='admin', password='password')
-        response = self.client.put(url, data, format='json')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        BaseAPITest.check_user_permissions(self, 'admin', 'put',
+                                           status.HTTP_200_OK, url, data)
 
-        # non admin user and authenticated user
-        self.client.login(username='user', password='password')
-        response = self.client.put(url, data, format='json')
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        # non admin and authenticated user
+        BaseAPITest.check_user_permissions(self, 'user', 'put',
+                                           status.HTTP_403_FORBIDDEN, url,
+                                           data)
 
     def test_delete_student(self):
         """
         Only admins can delete a Student instance
         """
-        url = reverse('institute-course-students-detail', args=['IC', 42, '100000'])
-        response = self.client.delete(url)
+        url = reverse('institute-course-students-detail',
+                      args=['IC', 42, '100000'])
         # non admin and unauthenticated user
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        BaseAPITest.check_user_permissions(self, None, 'delete',
+                                           status.HTTP_403_FORBIDDEN, url)
 
         # admin user
-        self.client.login(username='admin', password='password')
-        response = self.client.delete(url)
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        BaseAPITest.check_user_permissions(self, 'admin', 'delete',
+                                           status.HTTP_204_NO_CONTENT, url)
 
-        # non admin user and authenticated user
-        self.client.login(username='user', password='password')
-        response = self.client.delete(url)
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        # non admin and authenticated user
+        BaseAPITest.check_user_permissions(self, 'user', 'delete',
+                                           status.HTTP_403_FORBIDDEN, url)

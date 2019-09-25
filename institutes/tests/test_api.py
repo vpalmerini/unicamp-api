@@ -17,16 +17,16 @@ class InstituteAPITest(APITestCase):
         Anyone can make GET requests to the list of Institutes
         """
         url = reverse('institute-list')
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        BaseAPITest.check_user_permissions(self, None, 'get',
+                                           status.HTTP_200_OK, url)
 
     def test_get_institute_detail(self):
         """
         Anyone can make GET requests to a specific Institute
         """
         url = reverse('institute-detail', args=['IC'])
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        BaseAPITest.check_user_permissions(self, None, 'get',
+                                           status.HTTP_200_OK, url)
 
     def test_create_institute(self):
         """
@@ -34,19 +34,19 @@ class InstituteAPITest(APITestCase):
         """
         url = reverse('institute-list')
         data = {'initials': 'IB', 'name': 'Instituto de Biologia'}
-        response = self.client.post(url, data, format='json')
         # non admin and unauthenticated user
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        BaseAPITest.check_user_permissions(self, None, 'post',
+                                           status.HTTP_403_FORBIDDEN, url,
+                                           data)
 
         # admin user
-        self.client.login(username='admin', password='password')
-        response = self.client.post(url, data, format='json')
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        BaseAPITest.check_user_permissions(self, 'admin', 'post',
+                                           status.HTTP_201_CREATED, url, data)
 
         # non admin user and authenticated user
-        self.client.login(username='user', password='password')
-        response = self.client.post(url, data, format='json')
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        BaseAPITest.check_user_permissions(self, 'user', 'post',
+                                           status.HTTP_403_FORBIDDEN, url,
+                                           data)
 
     def test_edit_institute(self):
         """
@@ -54,35 +54,33 @@ class InstituteAPITest(APITestCase):
         """
         url = reverse('institute-detail', args=['IC'])
         data = {'initials': 'IC', 'name': 'Instituto de Comp'}
-        response = self.client.put(url, data, format='json')
         # non admin and unauthenticated user
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        BaseAPITest.check_user_permissions(self, None, 'put',
+                                           status.HTTP_403_FORBIDDEN, url,
+                                           data)
 
         # admin user
-        self.client.login(username='admin', password='password')
-        response = self.client.put(url, data, format='json')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        BaseAPITest.check_user_permissions(self, 'admin', 'put',
+                                           status.HTTP_200_OK, url, data)
 
         # non admin and authenticated user
-        self.client.login(username='user', password='password')
-        response = self.client.put(url, data, format='json')
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        BaseAPITest.check_user_permissions(self, 'user', 'put',
+                                           status.HTTP_403_FORBIDDEN, url,
+                                           data)
 
     def test_delete_institute(self):
         """
         Ensure that only admins can delete Institutes
         """
         url = reverse('institute-detail', args=['IC'])
-        response = self.client.delete(url)
         # non admin and unauthenticated user
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        BaseAPITest.check_user_permissions(self, None, 'delete',
+                                           status.HTTP_403_FORBIDDEN, url)
 
         # admin user
-        self.client.login(username='admin', password='password')
-        response = self.client.delete(url)
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        BaseAPITest.check_user_permissions(self, 'admin', 'delete',
+                                           status.HTTP_204_NO_CONTENT, url)
 
         # non admin and authenticated user
-        self.client.login(username='user', password='password')
-        response = self.client.delete(url)
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        BaseAPITest.check_user_permissions(self, 'user', 'delete',
+                                           status.HTTP_403_FORBIDDEN, url)
