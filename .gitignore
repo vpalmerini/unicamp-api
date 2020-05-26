@@ -4,6 +4,7 @@ Pipfile.lock
 
 # environment variables
 api/secret_key.py
+env/
 
 # django stuff:
 staticfiles
@@ -20,3 +21,11 @@ db.sqlite3-journal
 
 # vs code stuff
 .vscode
+
+# data
+classes/classes.json
+courses/courses.json
+institutes/institutes.json
+professors/professors.json
+students/students.json
+subjects/subjects.json

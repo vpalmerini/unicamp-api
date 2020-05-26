@@ -6,7 +6,7 @@ services:
     restart: always
     container_name: db
     env_file:
-      - env/postgres.env
+      - .env/postgres.env
     ports:
       - "5432:5432"
     volumes:
@@ -17,8 +17,8 @@ services:
     build: .
     restart: always
     env_file:
-      - env/django.env
-      - env/postgres.env
+      - .env/django.env
+      - .env/postgres.env
     command: python3 manage.py runserver_plus 0.0.0.0:8000
     volumes:
       - .:/app
