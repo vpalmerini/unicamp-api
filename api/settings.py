@@ -136,7 +136,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': ('api.permissions.IsSafeOrIsStaff', ),
-    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
+    'TEST_REQUEST_DEFAULT_FORMAT':
+    'json',
     'DEFAULT_THROTTLE_CLASSES': [
         'rest_framework.throttling.AnonRateThrottle',
         'rest_framework.throttling.UserRateThrottle'

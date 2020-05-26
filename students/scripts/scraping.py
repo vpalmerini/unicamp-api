@@ -35,7 +35,7 @@ def get_students_class(_class):
     graduacao_select = Select(
         forms.find_element_by_name("cboSubG")).select_by_value("1")
     ano_select = Select(
-        forms.find_element_by_name("cboAno")).select_by_visible_text("2019")
+        forms.find_element_by_name("cboAno")).select_by_visible_text("2020")
     # subject input
     disciplina_input = forms.find_element_by_name("txtDisciplina")
     disciplina_input.send_keys(_class["subject"])

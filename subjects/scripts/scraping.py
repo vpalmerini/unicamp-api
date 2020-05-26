@@ -5,8 +5,8 @@ from api.utils import data_to_json, json_to_data
 driver_path = '/usr/local/lib/chromedriver'
 driver = webdriver.Chrome(driver_path)
 
-years = ['2017', '2018', '2019']
-semesters = ['1', '2']
+years = ['2020']
+semesters = ['1']
 graduation_levels = ['G', 'P']
 
 base_url = 'https://www.dac.unicamp.br/portal/caderno-de-horarios/'
@@ -57,7 +57,6 @@ def get_subjects_details():
         container = driver.find_element_by_id('conteudo')
         basic_info_container = container.find_element_by_class_name(
             'disciplina')
-        basic_info_items = basic_info_container.find_elements_by_tag_name('p')
         try:
             subject["syllabus"] = basic_info_container.find_element_by_xpath(
                 "//b[contains(text(), 'Ementa')]//parent::p//following-sibling::p"

@@ -1,7 +1,7 @@
 from selenium import webdriver
 from api.utils import data_to_json
 
-year = '2019'
+year = '2020'
 graduation_level = 'G'
 semester = '1'
 url = 'https://www.dac.unicamp.br/portal/caderno-de-horarios/{}/{}/S/{}'.format(

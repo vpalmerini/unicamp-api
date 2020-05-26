@@ -1,9 +1,11 @@
 #!/bin/sh
+
 create_superuser="
 import django
 django.setup()
 from django.contrib.auth.models import User
 from django.db import IntegrityError
+
 try:
     User.objects.create_superuser('$SUPERUSER_NAME', '$SUPERUSER_EMAIL', '$SUPERUSER_PASSWORD', first_name='admin', last_name='1')
     print('Superuser \'$SUPERUSER_NAME\' created')
@@ -37,12 +39,13 @@ create_superuser
 python manage.py runscript create_institutes
 python manage.py runscript create_courses
 python manage.py runscript create_subjects
-python manage.py runscript create_classes
-python manage.py runscript create_professors
-python manage.py runscript create_students
+# python manage.py runscript create_classes
+# python manage.py runscript create_professors
+# python manage.py runscript create_students
 
 # run all unit tests
 python manage.py test --no-input
+
 
 echo "Executing CMD"
 exec "$@"
