@@ -1,10 +1,10 @@
-version: '3'
+version: "3.7"
 
 services:
-  postgres:
+  db:
     image: postgres
     restart: always
-    container_name: postgres
+    container_name: db
     env_file:
       - env/postgres.env
     ports:
@@ -12,18 +12,18 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data/
 
-  web:
-    container_name: django
+  api:
+    container_name: api
     build: .
     restart: always
     env_file:
       - env/django.env
       - env/postgres.env
-    command: python3 manage.py runserver_plus 0.0.0.0:8001
+    command: python3 manage.py runserver_plus 0.0.0.0:8000
     volumes:
       - .:/code
     ports:
-      - "8001:8001"
+      - "8000:8000"
     depends_on:
       - postgres
 
