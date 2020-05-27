@@ -145,7 +145,11 @@ REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_RATES': {
         'anon': '20/day',
         'user': '200/day'
-    }
+    },
+    'DEFAULT_PAGINATION_CLASS':
+    'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE':
+    100
 }
 
 LANGUAGE_CODE = 'pt-br'
