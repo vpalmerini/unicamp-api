@@ -4,7 +4,7 @@ Pipfile.lock
 
 # environment variables
 api/secret_key.py
-env/
+.env/
 
 # django stuff:
 staticfiles
